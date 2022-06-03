@@ -2,38 +2,27 @@
   <div class="hello">
     <h3>Street Lamps List</h3>
     <div class="container">
-      <div style="display: flex; justify-content: space-between;align-items: center">
+      <div>
         <div class="input-group mb-3">
           <span class="input-group-text" id="inputGroup-sizing-default">Search</span>
           <input v-model="search" placeholder="search by street / area / pincode" type="text" class="form-control" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-default">
         </div>
+        <select class="form-select" aria-label="Filter based on Status" aria-placeholder="Select" v-model="select">
+          <option value="1">Working Lamps</option>
+          <option value="2">Defected Lamps</option>
+          <option value="3">Both</option>
+        </select>
       </div>
-      <button type="button" class="btn btn-success mb-3" @click="searchHandler">Search / Filter</button>
-      <button type="button" class="btn btn-success mb-3 mt-3" @click="showMap">Show map for Area</button>
-    </div>
-    <div v-if="map">
-      <GmapMap
-        :center='center'
-        :zoom='16'
-        style='width:100%;  height: 400px;'
-      >
-        <GmapMarker
-          :key="index"
-          v-for="(m, index) in markers"
-          :position="m.position"
-          :icon="m.icon"
-          @click="center=m.position"
-        />
-      </GmapMap>
+      <button type="button" class="btn btn-success mb-3 mt-3" @click="searchHandler">Filter Results</button>
     </div>
     <ul>
-      <li v-for="lamp in LampsList" :key="lamp._id">
-        <div class="card w-100">
+      <li v-for="lamp in LampsList" :key="lamp._id" style="width: 30%">
+        <div class="card">
           <div class="card-body">
             <h5 class="card-title">{{lamp.lampName}}</h5>
             <strong><p class="card-text">Status: {{lamp.isActive ? 'Working': 'Defected'}}</p></strong>
             <p class="card-text">Latitute: {{lamp.lattitude}}, Logitude: {{lamp.longitude}}</p>
-            <p><strong>Address of Lamp: </strong> #305, 6th main cores of intel</p>
+            <p><strong>Address of Lamp: </strong> {{lamp.address}}</p>
             <a :href="`/lamp/${lamp._id}`" class="btn btn-info">More Details</a>
           </div>
         </div>
@@ -44,7 +33,7 @@
 
 <script>
 export default {
-  name: 'HelloWorld',
+  name: 'Search',
   props: {
     msg: String
   },
@@ -52,10 +41,8 @@ export default {
     return {
       LampsList: [],
       oriLampsList: [],
-      search: '',
-      map: false,
-      center: { lat: 12.508, lng: 73.587 },
-      markers: [],
+      select: '3',
+      search: this.$route.query.search,
     };
   },
   methods: {
@@ -67,14 +54,10 @@ export default {
 
       fetch("https://smart-street-lamp.herokuapp.com/api/lamps", requestOptions)
         .then(response => response.json())
-        .then(result => {this.LampsList = result; this.oriLampsList = result;})
+        .then(result => {this.LampsList = result; this.oriLampsList = result})
         .catch(error => console.log('error', error));
     },
     searchHandler() {
-      this.$router.push('/search?search=' + this.search);
-    },
-    showMap() {
-      // this.map = false;
       let list = [];
       for (let i = 0; i < this.oriLampsList.length; i += 1) {
         const add = this.oriLampsList[i].address;
@@ -85,37 +68,31 @@ export default {
           }
         }
       }
-      this.LampsList = list;
-
-      let lats = 0, longs = 0;
-      for (let i = 0; i < this.LampsList.length; i += 1) {
-        lats += this.LampsList[i].lattitude;
-        longs += this.LampsList[i].longitude;
-
-        const marker = {
-          lat: this.LampsList[i].lattitude,
-          lng: this.LampsList[i].longitude,
-        };
-        let icon = 'http://maps.google.com/mapfiles/kml/paddle/blu-circle.png';
-        if (this.LampsList[i].isActive) {
-          icon = 'http://maps.google.com/mapfiles/kml/paddle/blu-circle.png';
+      let resu = [];
+      for (let i = 0; i < list.length; i += 1) {
+        if (this.select == '1') {
+          if (list[i].isActive) {
+            resu.push(list[i]);
+          }
+        } else if (this.select == '2') {
+          if (!list[i].isActive) {
+            resu.push(list[i]);
+          }
         } else {
-          icon = 'http://maps.google.com/mapfiles/kml/paddle/red-circle.png';
+          resu.push(list[i]);
         }
-        this.markers.push({ position: marker, icon });
       }
-
-      this.center.lat = lats / this.LampsList.length;
-      this.center.lng = longs / this.LampsList.length;
-      
-      console.log(this.markers, this.center);
-
-      this.map = true;
+      this.LampsList = resu;
     }
   },
   mounted() {
     this.fetchList();
-  }
+  },
+  // computed: {
+  //   filter() {
+  //     return this.LampsList.filter(lamp => lamp.lampName.includes(this.search));
+  //   }
+  // }
 }
 </script>
 
