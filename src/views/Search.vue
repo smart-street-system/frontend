@@ -21,7 +21,7 @@
           <div class="card-body">
             <h5 class="card-title">{{lamp.lampName}}</h5>
             <strong><p class="card-text">Status: {{lamp.isActive ? 'Working': 'Defected'}}</p></strong>
-            <p class="card-text">Latitute: {{lamp.lattitude}}, Logitude: {{lamp.longitude}}</p>
+            <p class="card-text">Lattitude: {{lamp.lattitude}}, Longitude: {{lamp.longitude}}</p>
             <p><strong>Address of Lamp: </strong> {{lamp.address}}</p>
             <a :href="`/lamp/${lamp._id}`" class="btn btn-info">More Details</a>
           </div>

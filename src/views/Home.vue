@@ -1,6 +1,6 @@
 <template>
   <div class="home">
-    <p>Street Lamp System</p>
+    <p style="color: black; margin-top:20px; font-size: 30px">Street Lamp System</p>
     <HelloWorld msg="Welcome to Your Vue.js App"/>
   </div>
 </template>

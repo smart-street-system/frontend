@@ -86,6 +86,10 @@
     scroll-behavior: smooth;
   }
 }
+#searchButton{
+  margin: 50px 100px 50px 100px;
+}
+
 
 body {
   margin: 0;
@@ -95,10 +99,11 @@ body {
   line-height: var(--bs-body-line-height);
   color: var(--bs-body-color);
   text-align: var(--bs-body-text-align);
-  background-color: var(--bs-body-bg);
+  background-color: skyblue;
   -webkit-text-size-adjust: 100%;
   -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
 }
+
 
 hr {
   margin: 1rem 0;
@@ -339,6 +344,10 @@ label {
 
 button {
   border-radius: 0;
+  margin-top: 15px;
+  margin-bottom: 15px;
+  margin-right: 20px;
+  margin-left: 80px;
 }
 
 button:focus:not(:focus-visible) {
@@ -11887,4 +11896,13 @@ textarea.form-control-lg {
   }
 }
 
+#nav{
+  background-color: palegreen;
+}
+
 /*# sourceMappingURL=bootstrap.css.map */
+
+.home{
+  font-size: medium;
+  caret-color: palevioletred;
+}

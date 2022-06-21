@@ -1,6 +1,6 @@
 <template>
   <div class="hello">
-    <h3>Street Lamps List</h3>
+    <h3 style="font-size : 20px">Street Lamps List</h3>
     <div class="container">
       <div style="display: flex; justify-content: space-between;align-items: center">
         <div class="input-group mb-3">
@@ -8,7 +8,7 @@
           <input v-model="search" placeholder="search by street / area / pincode" type="text" class="form-control" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-default">
         </div>
       </div>
-      <button type="button" class="btn btn-success mb-3" @click="searchHandler">Search / Filter</button>
+      <button  type="button" id="searchButton" class="btn btn-success mb-3 mt-3" @click="searchHandler">Search / Filter</button>
       <button type="button" class="btn btn-success mb-3 mt-3" @click="showMap">Show map for Area</button>
     </div>
     <div v-if="map">
@@ -32,12 +32,12 @@
           <div class="card-body">
             <h5 class="card-title">{{lamp.lampName}}</h5>
             <strong><p class="card-text">Status: {{lamp.isActive ? 'Working': 'Defected'}}</p></strong>
-            <p class="card-text">Latitute: {{lamp.lattitude}}, Logitude: {{lamp.longitude}}</p>
-            <p><strong>Address of Lamp: </strong> #305, 6th main cores of intel</p>
+            <p class="card-text">Lattitude: {{lamp.lattitude}}, Longitude: {{lamp.longitude}}</p>
+            <p id="prashivkou"><strong>Address of Lamp: </strong><span>{{lamp.address}}</span></p>
             <a :href="`/lamp/${lamp._id}`" class="btn btn-info">More Details</a>
           </div>
         </div>
-      </li>
+      </li> 
     </ul>
   </div>
 </template>
@@ -124,6 +124,7 @@ export default {
 ul {
   list-style-type: none;
   padding: 0;
+  margin: 15px 10px 15px 10px;
 }
 li {
   display: inline-block;
@@ -132,4 +133,19 @@ li {
 .w-100 {
   width: 100%;
 }
+#prashivkou{
+  
+  padding: 20px;
+  background: #eaeaea;
+  max-width: 400px;
+  margin: 50px auto;
+}
+
+/* .demo-1 {
+  overflow: hidden;
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+} */
+
 </style>
